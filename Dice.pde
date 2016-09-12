@@ -15,7 +15,7 @@ Button prolougeCont;
 Button story1Cont;
 Button gameTournaments;
 Button gameClubs;
-Button gameFinaces;
+Button gameFinances;
 Button gameSave;
 //dice
 Die dice;
@@ -38,7 +38,7 @@ void mouseReleased()
 	if(prolouge==true)
 	{	
 		dialouge++;
-		if (dialouge>2)
+		if (dialouge>5)
 		{
 			decider = prolougeCont.hover();
 			if(decider=true)
@@ -52,11 +52,15 @@ void mouseReleased()
 	if(story1==true)
 	{
 		dialouge++;
-		if((mouseX>400)&&(mouseX<600)&&(mouseY>525)&&(mouseY<575)&&(dialouge>=2))
+		if(dialouge>2)
 		{
-			dayToDay = true;
-			story1 = false;
-			dialouge = 0;
+			decider = story1Cont.hover();
+			if (decider == true)
+			{
+				dayToDay = true;
+				story1 = false;
+				dialouge = 0;
+			}
 		}
 	}
 	if(dayToDay==true)
@@ -69,8 +73,8 @@ void mouseReleased()
 }
 void promptClick()
 {
-	story1Cont = new Button(400,525,200,50,30,"Continue");
-	story1Cont.show();
+	textSize(10);
+	text("Click",500,550);
 }
 void draw()
 {
@@ -131,11 +135,11 @@ void prolouge()
 	if (dialouge>=5)
 	{
 		text("Let's see you in Action.",500,450);
-	}
-	if (dialouge>5)
-	{
 		prolougeCont = new Button(400,525,200,50,30,"Continue");
 		prolougeCont.show();
+	}else
+	{
+		promptClick();
 	}
 }
 void story1()
@@ -154,11 +158,8 @@ void story1()
 	if(dialouge>=2)
 	{
 		text("GET OFF YOUR LAZY ASS AND DO SOMETHING!",500,200);
-	}
-	if(dialouge<2)
-	{
-		textSize(10);
-		text("Click",500,550);
+		story1Cont = new Button(400,525,200,50,30,"Continue");
+		story1Cont.show();
 	}else
 	{
 		promptClick();
@@ -174,8 +175,8 @@ void dayToDay()
 	gameTournaments.show();
 	gameClubs = new Button(510,90,300,200,30,"Clubs");
 	gameClubs.show();
-	gameFinaces = new Button(190,310,300,200,30,"Finaces");
-	gameFinaces.show();
+	gameFinances = new Button(190,310,300,200,30,"Finances");
+	gameFinances.show();
 	gameSave = new Button(510,310,300,200,30,"Save");
 	gameSave.show();
 }

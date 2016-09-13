@@ -9,6 +9,7 @@ boolean story1 = false;
 boolean dayToDay = false;
 boolean tournaments = false;
 boolean tourneyGame = false;
+boolean workInProgress = false;
 //buttons
 Button titleScreenPlay;
 Button prolougeCont;
@@ -65,9 +66,29 @@ void mouseReleased()
 	}
 	if(dayToDay==true)
 	{
-		if((mouseX>190)&&(mouseX<490)&&(mouseY>90)&&(mouseY<290))
+		decider = gameTournaments.hover();
+		if(decider == true)
 		{
-
+			workInProgress = true;
+			dayToDay = false;
+		}
+		decider = gameClubs.hover();
+		if(decider == true)
+		{
+			workInProgress=true;
+			dayToDay=false;
+		}
+		decider = gameFinances.hover();
+		if(decider == true)
+		{
+			workInProgress=true;
+			dayToDay=false;
+		}
+		decider = gameSave.hover();
+		if(decider == true)
+		{
+			workInProgress=true;
+			dayToDay=false;
 		}
 	}
 }
@@ -94,6 +115,10 @@ void draw()
 	if(dayToDay == true)
 	{
 		dayToDay();
+	}
+	if(workInProgress == true)
+	{
+		workInProgress();
 	}
 	if(tourneyGame == true)
 	{
@@ -179,6 +204,10 @@ void dayToDay()
 	gameFinances.show();
 	gameSave = new Button(510,310,300,200,30,"Save");
 	gameSave.show();
+}
+void workInProgress()
+{
+
 }
 class Die
 {

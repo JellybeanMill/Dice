@@ -1,7 +1,9 @@
-//important variables
+//nessasary variables
 int dialouge;
+boolean decider = false;
+//saveable variables
 int day = 1;
-boolean decider;
+char location = "San Francisco";
 //scenes
 boolean titleScreen = true;
 boolean prolouge = false;
@@ -10,6 +12,7 @@ boolean dayToDay = false;
 boolean tournaments = false;
 boolean tourneyGame = false;
 boolean workInProgress = false;
+boolean clubs = false;
 //buttons
 Button titleScreenPlay;
 Button prolougeCont;
@@ -18,6 +21,9 @@ Button gameTournaments;
 Button gameClubs;
 Button gameFinances;
 Button gameSave;
+Button returnToMenu;
+//Club Buttons
+Button clubSFCityPub;
 //dice
 Die dice;
 void setup()
@@ -26,45 +32,15 @@ void setup()
 }
 void mouseReleased()
 {
-	if(titleScreen==true)
+	if(workInProgress==true)
 	{
-		decider = titleScreenPlay.hover();
-		if(decider=true)
+		decider = returnToMenu.hover();
+		if(decider == true)
 		{
-			titleScreen = false;
-			prolouge = true;
-			dialouge = 0;
+			workInProgress = false;
+			dayToDay = true;
 		}
-	}
-	if(prolouge==true)
-	{	
-		dialouge++;
-		if (dialouge>5)
-		{
-			decider = prolougeCont.hover();
-			if(decider=true)
-			{
-				story1 = true;
-				prolouge = false;
-				dialouge = 0;		
-			}
-		}
-	}
-	if(story1==true)
-	{
-		dialouge++;
-		if(dialouge>2)
-		{
-			decider = story1Cont.hover();
-			if (decider == true)
-			{
-				dayToDay = true;
-				story1 = false;
-				dialouge = 0;
-			}
-		}
-	}
-	if(dayToDay==true)
+	}else if(dayToDay==true)
 	{
 		decider = gameTournaments.hover();
 		if(decider == true)
@@ -75,7 +51,7 @@ void mouseReleased()
 		decider = gameClubs.hover();
 		if(decider == true)
 		{
-			workInProgress=true;
+			clubs=true;
 			dayToDay=false;
 		}
 		decider = gameFinances.hover();
@@ -90,6 +66,43 @@ void mouseReleased()
 			workInProgress=true;
 			dayToDay=false;
 		}
+	}else if(story1==true)
+	{
+		dialouge++;
+		if(dialouge>2)
+		{
+			decider = story1Cont.hover();
+			if (decider == true)
+			{
+				dayToDay = true;
+				story1 = false;
+				dialouge = 1;
+			}
+		}
+	}else if(prolouge==true)
+	{
+		dialouge++;
+		if (dialouge>5)
+		{
+			decider = prolougeCont.hover();
+			if(decider==true)
+			{
+				story1 = true;
+				prolouge = false;
+				dialouge = 1;		
+			}
+		}
+	}else if(titleScreen==true)
+	{
+		decider = titleScreenPlay.hover();
+		if(decider==true)
+		{
+			titleScreen = false;
+			prolouge = true;
+			dialouge = 1;
+		}
+	}else if(clubs == true)
+	{
 	}
 }
 void promptClick()
@@ -119,6 +132,10 @@ void draw()
 	if(workInProgress == true)
 	{
 		workInProgress();
+	}
+	if(clubs == true)
+	{
+		clubs();
 	}
 	if(tourneyGame == true)
 	{
@@ -207,7 +224,25 @@ void dayToDay()
 }
 void workInProgress()
 {
-
+	textSize(50);
+	textAlign(CENTER,CENTER);
+	fill(255);
+	text("WORK IN PROGRESS",500,300);
+	returnToMenu = new Button(400,500,200,75,30,"Return");
+	returnToMenu.show();
+}
+void clubs()
+{
+	fill(255);
+	textSize(25);
+	text("Day "+day,500,25);
+	textSize(30);
+	text(location,500,100);
+	if (location == "San Francisco")
+	{
+		clubSFCityPub = new Button("CityPub");
+		clubSFCityPub.show();
+	}
 }
 class Die
 {

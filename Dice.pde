@@ -3,7 +3,7 @@ int dialouge;
 boolean decider = false;
 //saveable variables
 int day = 1;
-char location = "San Francisco";
+String location = "San Francisco";
 //scenes
 boolean titleScreen = true;
 boolean prolouge = false;
@@ -13,6 +13,7 @@ boolean tournaments = false;
 boolean tourneyGame = false;
 boolean workInProgress = false;
 boolean clubs = false;
+boolean diceGameClub = false;
 //buttons
 Button titleScreenPlay;
 Button prolougeCont;
@@ -25,7 +26,33 @@ Button returnToMenu;
 //Club Buttons
 Button clubSFCityPub;
 //dice
-Die dice;
+Die diceP1D1;
+Die diceP1D2;
+Die diceP1D3;
+Die diceP1D4;
+Die diceP1D5;
+Die diceP1D6;
+Die diceP2D1;
+Die diceP2D2;
+Die diceP2D3;
+Die diceP2D4;
+Die diceP2D5;
+Die diceP2D6;
+Die diceP3D1;
+Die diceP3D2;
+Die diceP3D3;
+Die diceP3D4;
+Die diceP3D5;
+Die diceP3D6;
+Die diceP4D1;
+Die diceP4D2;
+Die diceP4D3;
+Die diceP4D4;
+Die diceP4D5;
+Die diceP4D6;
+//Clubs
+Club currentClub;
+Club cityPubSF= new Club("City Pub",1,1);
 void setup()
 {
 	size(1000,600);
@@ -103,6 +130,11 @@ void mouseReleased()
 		}
 	}else if(clubs == true)
 	{
+		decider = clubSFCityPub.hover();
+		if(decider==true)
+		{
+			currentClub=cityPubSF;
+		}
 	}
 }
 void promptClick()
@@ -133,15 +165,11 @@ void draw()
 	{
 		workInProgress();
 	}
-	if(clubs == true)
+	if(diceGameClub == true)
 	{
-		clubs();
+		diceGameClubs();
 	}
-	if(tourneyGame == true)
-	{
-		dice = new Die(mouseX,mouseY);
-		dice.show();
-	}
+	if(game)
 }
 void titleScreen()
 {
@@ -237,12 +265,39 @@ void clubs()
 	textSize(25);
 	text("Day "+day,500,25);
 	textSize(30);
-	text(location,500,100);
+	text(location,500,75);
+	for(int loopY = 0; loopY<5;loopY++)
+	{
+		for(int loopX=0;loopX<5;loopX++)
+		{
+			stroke(192,192,192);
+			fill(0);
+			rect((loopX*200)+25,25+((loopY+1)*100),150,50);
+		}
+	}
 	if (location == "San Francisco")
 	{
-		clubSFCityPub = new Button("CityPub");
+		clubSFCityPub = new Button(25,125,150,50,25,"City Pub");
 		clubSFCityPub.show();
 	}
+}
+void diceGameClub()
+{
+	boolean gamesetup = true;
+	fill(255);
+	textSize(25);
+	text(location,800,30);
+	text(currentClub.name,800,70);
+	textAlign(CENTER,CENTER)
+	stroke(255);
+	line(600,0,600,600);
+	line(0,50,600,50);
+	line(300,0,300,600);
+	line(0,350,600,350);
+	line(0,300,600,300);
+	textSize(10);
+	textAlign(LEFT,CENTER);
+	text("Player 1",)
 }
 class Die
 {
@@ -366,5 +421,17 @@ class Button
 		{
 			return false;
 		}
+	}
+}
+class Club
+{
+	String name;
+	int difficulty;
+	int rich;
+	Club(String nameofClub, int inputDifficulty,int inputCash)
+	{
+		name = nameofClub;
+		difficulty = inputDifficulty;
+		rich = inputCash;
 	}
 }

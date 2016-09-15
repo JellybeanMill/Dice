@@ -25,31 +25,11 @@ Button gameSave;
 Button returnToMenu;
 //Club Buttons
 Button clubSFCityPub;
-//dice
-Die diceP1D1;
-Die diceP1D2;
-Die diceP1D3;
-Die diceP1D4;
-Die diceP1D5;
-Die diceP1D6;
-Die diceP2D1;
-Die diceP2D2;
-Die diceP2D3;
-Die diceP2D4;
-Die diceP2D5;
-Die diceP2D6;
-Die diceP3D1;
-Die diceP3D2;
-Die diceP3D3;
-Die diceP3D4;
-Die diceP3D5;
-Die diceP3D6;
-Die diceP4D1;
-Die diceP4D2;
-Die diceP4D3;
-Die diceP4D4;
-Die diceP4D5;
-Die diceP4D6;
+//dice players
+DiceSet gamePlayer1;
+DiceSet gamePlayer2;
+DiceSet gamePlayer3;
+DiceSet gamePlayerU;
 //Clubs
 Club currentClub;
 Club cityPubSF= new Club("City Pub",1,1);
@@ -147,31 +127,31 @@ void draw()
 	background(0);
 	if (titleScreen == true)
 	{
-		titleScreen();
+		showTitleScreen();
 	}
 	if (prolouge == true)
 	{
-		prolouge();
+		showProlouge();
 	}
 	if (story1 == true)
 	{
-		story1();
+		showstory1();
 	}
 	if(dayToDay == true)
 	{
-		dayToDay();
+		showDayToDay();
 	}
 	if(workInProgress == true)
 	{
-		workInProgress();
+		showWorkInProgress();
 	}
 	if(diceGameClub == true)
 	{
-		diceGameClubs();
+		showDiceGameClub();
 	}
 	if(game)
 }
-void titleScreen()
+void showTitleScreen()
 {
 	textAlign(CENTER,TOP);
 	textSize(50);
@@ -181,7 +161,7 @@ void titleScreen()
 	titleScreenPlay = new Button(390,240,220,70,30,"Play");
 	titleScreenPlay.show();
 }
-void prolouge()
+void showProlouge()
 {
 	fill(255);
 	textAlign(CENTER,CENTER);
@@ -212,7 +192,7 @@ void prolouge()
 		promptClick();
 	}
 }
-void story1()
+void showStory1()
 {
 	textSize(25);
 	fill(255);
@@ -235,7 +215,7 @@ void story1()
 		promptClick();
 	}
 }
-void dayToDay()
+void showDayToDay()
 {
 	textSize(25);
 	fill(255);
@@ -250,7 +230,7 @@ void dayToDay()
 	gameSave = new Button(510,310,300,200,30,"Save");
 	gameSave.show();
 }
-void workInProgress()
+void showWorkInProgress()
 {
 	textSize(50);
 	textAlign(CENTER,CENTER);
@@ -259,7 +239,7 @@ void workInProgress()
 	returnToMenu = new Button(400,500,200,75,30,"Return");
 	returnToMenu.show();
 }
-void clubs()
+void showClubs()
 {
 	fill(255);
 	textSize(25);
@@ -281,7 +261,7 @@ void clubs()
 		clubSFCityPub.show();
 	}
 }
-void diceGameClub()
+void showDiceGameClub()
 {
 	boolean gamesetup = true;
 	fill(255);
@@ -297,9 +277,13 @@ void diceGameClub()
 	line(0,300,600,300);
 	textSize(10);
 	textAlign(LEFT,CENTER);
-	text("Player 1",)
+	text("Player 1",10,25);
+	text("Player 2",310,25);
+	text("Player 3",10,325);
+	text("You",310,325);
+
 }
-class Die
+class DiceSet
 {
 	int myX;
 	int myY;
@@ -428,6 +412,9 @@ class Club
 	String name;
 	int difficulty;
 	int rich;
+	int player1cash;
+	int player2cash;
+	int player3cash;
 	Club(String nameofClub, int inputDifficulty,int inputCash)
 	{
 		name = nameofClub;

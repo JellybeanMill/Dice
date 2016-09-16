@@ -392,6 +392,14 @@ void showDiceGameClub()
 	if (clubPlay == true)
 	{
 		int determiner;
+		int cashpool;
+		int totalportion;
+		double portion1;
+		double portion2;
+		double portion3;
+		int takeaway1;
+		int takeaway2;
+		int takeaway3;
 		generateDice();
 		clubStop = new Button(650,475,300,100,35,"Stop");
 		clubStop.show();
@@ -402,24 +410,19 @@ void showDiceGameClub()
 			clubGameSetup=true;
 			clubPlay=false;
 		}
-		determiner = diceScore();
-		if (determiner>50)
+		determiner = diceScore(true);
+		if (determiner==1)
 		{
-		}else if (determiner>40)
-		{
-			if(determiner-40==3)
-			{
-				
-			}
-		}else if (determiner>30)
-		{
-
-		}else if (determiner>20)
-		{
-
-		}else if (determiner>10)
-		{
-
+			cashpool = currentClub.player1bet;
+			totalportion = currentClub.player2bet+currentClub.player3bet+betSizePlayer;
+			portion1 = (double)(currentClub.player2bet/totalportion);
+			portion2 = (double)(currentClub.player3bet/totalportion);
+			portion3 = (double)(betSizePlayer/totalportion);
+			takeaway1=(int)(portion1*cashpool);
+			takeaway2=(int)(portion2*cashpool);
+			takeaway3=(int)(portion3*cashpool);
+			currentClub.player1cash = currentClub.player1cash - takeaway1 - takeaway2 - takeaway3;
+			;
 		}
 	}
 }
@@ -483,7 +486,7 @@ void setDice()
 	p3d5 = new Die(113,500);
 	p3d6 = new Die(207,500);
 }
-int diceScore()
+int diceScore(boolean type)
 {
 	boolean notWinner=false;
 	boolean notLoser=false;
@@ -497,35 +500,41 @@ int diceScore()
 	playerScores[1] = p2d1.num()+p2d2.num()+p2d3.num()+p2d4.num()+p2d5.num()+p2d6.num();
 	playerScores[2] = p3d1.num()+p3d2.num()+p3d3.num()+p3d4.num()+p3d5.num()+p3d6.num();
 	playerScores[3] = pud1.num()+pud2.num()+pud3.num()+pud4.num()+pud5.num()+pud6.num();
-	for(loop1i=0;loop1i<4;loop1i++)
+	if (type == false)
 	{
-		for(loop1j=0;loop1j<4;loop1j++)
+		for(loop1i=0;loop1i<4;loop1i++)
 		{
-			if (playerScores[loop1i]<=playerScores[loop1j])
+			for(loop1j=0;loop1j<4;loop1j++)
 			{
-				notWinner=true;
+				if (playerScores[loop1i]<=playerScores[loop1j])
+				{
+					notWinner=true;
+				}
 			}
+			if (notWinner!=true)
+			{
+				finalScore+=(loop1i+1);
+			}
+			notWinner = false;
 		}
-		if (notWinner!=true)
-		{
-			finalScore+=((loop1i+1)*10);
-		}
-		notWinner = false;
 	}
-	for(loop2i=0;loop2i<4;loop2i++)
+	if (type == true)
 	{
-		for(loop2j=0;loop2j<4;loop2j++)
+		for(loop2i=0;loop2i<4;loop2i++)
 		{
-			if (playerScores[loop2i]>=playerScores[loop2j])
+			for(loop2j=0;loop2j<4;loop2j++)
 			{
-				notLoser=true;
+				if (playerScores[loop2i]>=playerScores[loop2j])
+				{
+					notLoser=true;
+				}
 			}
+			if (notLoser!=true)
+			{
+				finalScore+=(loop2i+1);
+			}
+			notLoser = false;
 		}
-		if (notLoser!=true)
-		{
-			finalScore+=(loop2i+1);
-		}
-		notLoser = false;
 	}
 	return finalScore;
 }
@@ -672,9 +681,9 @@ class Club
 		name = nameofClub;
 		difficulty = inputDifficulty;
 		rich = inputCash;
-		player1cash = (int)(pow(((int)((Math.random()*3001)+7000)),rich));
-		player2cash = (int)(pow(((int)((Math.random()*3001)+4000)),rich));
-		player3cash = (int)(pow(((int)((Math.random()*3001)+1000)),rich));
+		player1cash = (int)(((Math.random()*3001)+7000)*rich);
+		player2cash = (int)(((Math.random()*3001)+4000)*rich);
+		player3cash = (int)(((Math.random()*3001)+1000)*rich);
 		player1bet = betReturn(player1cash);
 		player2bet = betReturn(player2cash);
 		player3bet = betReturn(player3cash);

@@ -299,8 +299,7 @@ void showClubs()
 	}
 }
 void showDiceGameClub()
-{
-	
+{	
 	fill(255);
 	textSize(25);
 	textAlign(CENTER,CENTER);
@@ -394,9 +393,9 @@ void showDiceGameClub()
 		int determiner;
 		int cashpool;
 		int totalportion;
-		double portion1;
-		double portion2;
-		double portion3;
+		float portion1;
+		float portion2;
+		float portion3;
 		int takeaway1;
 		int takeaway2;
 		int takeaway3;
@@ -409,21 +408,70 @@ void showDiceGameClub()
 			setDice();
 			clubGameSetup=true;
 			clubPlay=false;
+			determiner = diceScore(true);
+			if (determiner==1)
+			{
+				cashpool = currentClub.player1bet;
+				totalportion = currentClub.player2bet+currentClub.player3bet+betSizePlayer;
+				portion1 = (float)((currentClub.player2bet*1000)/totalportion);
+				portion2 = (float)((currentClub.player3bet*1000)/totalportion);
+				portion3 = (float)((betSizePlayer*1000)/totalportion);
+				takeaway1=(int)(portion1*cashpool*0.001);
+				takeaway2=(int)(portion2*cashpool*0.001);
+				takeaway3=(int)(portion3*cashpool*0.001);
+				currentClub.player1cash = currentClub.player1cash - takeaway1 - takeaway2 - takeaway3;
+				currentClub.player2cash = currentClub.player2cash+takeaway1;
+				currentClub.player3cash = currentClub.player3cash+takeaway2;
+				ownedMoney = ownedMoney+takeaway3;
+			}
+			else if (determiner==2)
+			{
+				cashpool = currentClub.player2bet;
+				totalportion = currentClub.player1bet+currentClub.player3bet+betSizePlayer;
+				portion1 = (float)((currentClub.player1bet*1000)/totalportion);
+				portion2 = (float)((currentClub.player3bet*1000)/totalportion);
+				portion3 = (float)((betSizePlayer*1000)/totalportion);
+				takeaway1=(int)(portion1*cashpool*0.001);
+				takeaway2=(int)(portion2*cashpool*0.001);
+				takeaway3=(int)(portion3*cashpool*0.001);
+				currentClub.player2cash = currentClub.player2cash - takeaway1 - takeaway2 - takeaway3;
+				currentClub.player1cash = currentClub.player1cash+takeaway1;
+				currentClub.player3cash = currentClub.player3cash+takeaway2;
+				ownedMoney = ownedMoney+takeaway3;
+			}
+			else if (determiner == 3)
+			{
+				cashpool = currentClub.player3bet;
+				totalportion = currentClub.player2bet+currentClub.player1bet+betSizePlayer;
+				portion1 = (float)((currentClub.player2bet*1000)/totalportion);
+				portion2 = (float)((currentClub.player1bet*1000)/totalportion);
+				portion3 = (float)((betSizePlayer*1000)/totalportion);
+				takeaway1=(int)(portion1*cashpool*0.001);
+				takeaway2=(int)(portion2*cashpool*0.001);
+				takeaway3=(int)(portion3*cashpool*0.001);
+				currentClub.player3cash = currentClub.player3cash - takeaway1 - takeaway2 - takeaway3;
+				currentClub.player2cash = currentClub.player2cash+takeaway1;
+				currentClub.player1cash = currentClub.player1cash+takeaway2;
+				ownedMoney = ownedMoney+takeaway3;
+			}
+			else if (determiner== 4)
+			{
+				cashpool = betSizePlayer;
+				totalportion = currentClub.player2bet+currentClub.player3bet+currentClub.player1bet;
+				portion1 = (float)((currentClub.player2bet*1000)/totalportion);
+				portion2 = (float)((currentClub.player3bet*1000)/totalportion);
+				portion3 = (float)((currentClub.player1bet*1000)/totalportion);
+				takeaway1=(int)(portion1*cashpool*0.001);
+				takeaway2=(int)(portion2*cashpool*0.001);
+				takeaway3=(int)(portion3*cashpool*0.001);
+				ownedMoney = ownedMoney - takeaway1 - takeaway2 - takeaway3;
+				currentClub.player2cash = currentClub.player2cash+takeaway1;
+				currentClub.player3cash = currentClub.player3cash+takeaway2;
+				currentClub.player1cash = currentClub.player1cash+takeaway3;
+			}
+			currentClub.reBet();
 		}
-		determiner = diceScore(true);
-		if (determiner==1)
-		{
-			cashpool = currentClub.player1bet;
-			totalportion = currentClub.player2bet+currentClub.player3bet+betSizePlayer;
-			portion1 = (double)(currentClub.player2bet/totalportion);
-			portion2 = (double)(currentClub.player3bet/totalportion);
-			portion3 = (double)(betSizePlayer/totalportion);
-			takeaway1=(int)(portion1*cashpool);
-			takeaway2=(int)(portion2*cashpool);
-			takeaway3=(int)(portion3*cashpool);
-			currentClub.player1cash = currentClub.player1cash - takeaway1 - takeaway2 - takeaway3;
-			;
-		}
+		
 	}
 }
 void generateDice()
@@ -508,12 +556,15 @@ int diceScore(boolean type)
 			{
 				if (playerScores[loop1i]<=playerScores[loop1j])
 				{
-					notWinner=true;
+					if (loop1i != loop1j)
+					{
+						notWinner=true;
+					}
 				}
 			}
-			if (notWinner!=true)
+			if (notWinner==false)
 			{
-				finalScore+=(loop1i+1);
+				finalScore=(loop1i+1);
 			}
 			notWinner = false;
 		}
@@ -526,12 +577,15 @@ int diceScore(boolean type)
 			{
 				if (playerScores[loop2i]>=playerScores[loop2j])
 				{
-					notLoser=true;
+					if (loop2i != loop2j)
+					{
+						notLoser=true;
+					}
 				}
 			}
-			if (notLoser!=true)
+			if (notLoser==false)
 			{
-				finalScore+=(loop2i+1);
+				finalScore=(loop2i+1);
 			}
 			notLoser = false;
 		}
@@ -692,5 +746,11 @@ class Club
 	{
 		cash = (int)(cash * ((sq((int)((Math.random()*101)+1)))*0.0001));
 		return cash;
+	}
+	void reBet()
+	{
+		player1bet = betReturn(player1cash);
+		player2bet = betReturn(player2cash);
+		player3bet = betReturn(player3cash);
 	}
 }

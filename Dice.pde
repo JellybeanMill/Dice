@@ -673,7 +673,7 @@ class Button
 	int textS;
 	int halfX;
 	int halfY;
-	String text;
+	String buttonText;
 	//variable declarations here
 	Button(int x,int y,int xSize,int ySize,int sText,String inputText)
 	{
@@ -682,7 +682,7 @@ class Button
 		sizeX = xSize;
 		sizeY = ySize;
 		textS = sText;
-		text = inputText;
+		buttonText = inputText;
 		halfX = (int)(x+(0.5*xSize));
 		halfY = (int)(y+(0.5*ySize));
 	}
@@ -696,7 +696,7 @@ class Button
 			fill(255);
 			textSize(textS+5);
 			textAlign(CENTER,CENTER);
-			text(text,halfX,halfY);
+			text(buttonText,halfX,halfY);
 		}else
 		{
 			stroke(255);
@@ -705,7 +705,7 @@ class Button
 			fill(255);
 			textSize(textS);
 			textAlign(CENTER,CENTER);
-			text(text,halfX,halfY);
+			text(buttonText,halfX,halfY);
 		}
 	}
 	boolean hover()
